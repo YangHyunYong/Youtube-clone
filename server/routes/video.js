@@ -62,7 +62,7 @@ router.post('/thumbnail',(req,res)=>{
         return res.json({success:false,err});
     })
     .screenshots({
-        count:3,
+        count:1,
         folder: 'uploads/thumnails',
         size: '320x240',
         //%b: 확장자를 제외한 파일 이름
@@ -88,6 +88,15 @@ router.get('/getVideos', (req,res)=>{
     .exec((err, videos)=>{
         if(err) return res.status(400).send(err);
         res.status(200).json({success:true, videos})
+    })
+})
+
+router.post('/getVideoDetail', (req,res)=>{
+    Video.findOne({"_id": req.body.videoId})
+    .populate('writer')
+    .exec((err,videoDetail)=>{
+        if(err) return res.status(400).send(err)
+        res.status(200).json({success:true, videoDetail})
     })
 })
 
